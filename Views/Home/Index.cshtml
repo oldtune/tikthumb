@@ -1,0 +1,19 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="row">
+    <div class="col-4 offset-4 border bg-light rounded">
+        <form enctype="multipart/form-data" class="p-4" method="post">
+            <div class="form-group row mb-3">
+                <label class="form-label">① Choose your video file</label>
+                <input name="videoFile" type="file" class="form-control" />
+            </div>
+            <div class="form-group row mb-3">
+                <label class="form-label">② Choose the thumbnail image</label>
+                <input name="thumbnailFile" type="file" class="form-control" />
+            </div>
+            <button class="btn btn-primary">③ Submit</button>
+        </form>
+    </div>
+</div>
