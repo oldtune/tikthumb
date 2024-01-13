@@ -37,8 +37,15 @@ public class HomeController : Controller
 
         //process the image
         var thumbnailFile = files["thumbnailFile"];
+        var imageSavePath = GetFilePathToSave(_filePath, thumbnailFile.FileName, GetCurrentTimeStamp());
+        using var thumbnailFileStream = new FileStream(imageSavePath, FileMode.Create);
+        await thumbnailFile.CopyToAsync(thumbnailFileStream);
 
+        //call ffmpeg       
 
+        //queue stream
+
+        //return stream
         return View();
     }
 
@@ -50,7 +57,8 @@ public class HomeController : Controller
         {
             fileName = fileName.Substring(0, 100);
         }
-        return $"{basePath}/{timeStamp}/{fileName}/{fileExtension}";
+        _logger.LogInformation(fileExtension);
+        return $"{basePath}/{timeStamp}_{fileName}{fileExtension}";
     }
 
     private string GetCurrentTimeStamp()
