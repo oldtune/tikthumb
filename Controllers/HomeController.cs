@@ -38,7 +38,7 @@ public class HomeController : Controller
 
         var videoFile = await SaveFormFile(files["videoFile"]);
 
-        var thumbnailFile = await SaveFormFile(files["thumnailFile"]);
+        var thumbnailFile = await SaveFormFile(files["thumbnailFile"]);
 
         await InsertFrame(videoFile, thumbnailFile);
         //return stream
@@ -49,14 +49,14 @@ public class HomeController : Controller
     {
         await TransferImageIntoVideo(imageFile);
         //create txt file that contains file list
-        await CreateInputTextFile(videoFile, imageFile);
-        //concat stream
-        await ConcatStream(videoFile, imageFile, $"{_outputPath}_{_currentTimeStamp}.txt");
+        // await CreateInputTextFile(videoFile, imageFile);
+        // //concat stream
+        // await ConcatStream(videoFile, imageFile, MakeFileInfoPath(_outputPath, _currentTimeStamp));
     }
 
     private async Task TransferImageIntoVideo(FileSavedInfo fileInfo)
     {
-        var argument = $"-loop 1 -i {fileInfo.FullSavedPath} -c:v libx264 -t 5 -pix_fmt yuv420p {fileInfo.SavedFileNameWithoutExtension}.mp4";
+        var argument = $"-loop 1 -i {fileInfo.FullSavedPath} -c:v libx264 -t 0.17 -pix_fmt yuv420p {fileInfo.SavedFileNameWithoutExtension}.mp4";
         var process = CreateFfmpegProcess(argument);
         process.Start();
         await process.WaitForExitAsync();
@@ -64,12 +64,16 @@ public class HomeController : Controller
 
     private async Task CreateInputTextFile(FileSavedInfo videoFile, FileSavedInfo imageFile)
     {
-        await System.IO.File.WriteAllTextAsync($"{_outputPath}_{_currentTimeStamp}.txt", $"file '{videoFile.FullSavedPath}'\nfile '{_filePath}/{imageFile.SavedFileNameWithoutExtension}.mp4'", Encoding.UTF8);
+        var outputPath = MakeFileInfoPath(_outputPath, _currentTimeStamp);
+        var content = $"file '{videoFile.FullSavedPath}'\nfile '{_filePath}/{imageFile.SavedFileNameWithoutExtension}.mp4'";
+
+        await System.IO.File.WriteAllTextAsync(outputPath, content, Encoding.UTF8);
     }
 
     private async Task ConcatStream(FileSavedInfo videoFile, FileSavedInfo imageFile, string textFile)
     {
-        var argument = $"ffmpeg -f concat -i {textFile} -c copy -movflags +faststart {_outputPath}/{videoFile.SavedFileNameWithoutExtension}.mp4";
+        var argument = $"-f concat -i {textFile} -c copy -movflags +faststart {_outputPath}/{videoFile.SavedFileNameWithoutExtension}.mp4";
+        _logger.LogInformation(argument);
         var process = CreateFfmpegProcess(argument);
         process.Start();
         await process.WaitForExitAsync();
@@ -84,7 +88,6 @@ public class HomeController : Controller
         return new FileSavedInfo
         {
             FileExtension = Path.GetExtension(file.FileName),
-            // OriginalFileNameWithoutExtension = Path.GetFileNameWithoutExtension(file.FileName),
             SavedFileNameWithoutExtension = newFileName,
             FullSavedPath = savePath
         };
@@ -120,11 +123,27 @@ public class HomeController : Controller
         return unixTimestamp;
     }
 
+    private string MakeFileInfoPath(string outputPath, string timeStamp)
+    {
+        return $"{outputPath}/fileinfo_{timeStamp}.txt";
+    }
+
     public class FileSavedInfo
     {
         public string OriginalFileNameWithoutExtension { set; get; }
         public string SavedFileNameWithoutExtension { set; get; }
         public string FileExtension { set; get; }
         public string FullSavedPath { set; get; }
+    }
+
+    public class VideoInfo
+    {
+        public StreamInfo StreamInfo { set; get; }
+    }
+
+    public class StreamInfo
+    {
+        public int Width { set; get; }
+        public int Height { set; get; }
     }
 }
