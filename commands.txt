@@ -1,0 +1,2 @@
+docker build -t tikthumb .
+docker run --name tikthumb -dp 8080:8080 tikthumb
