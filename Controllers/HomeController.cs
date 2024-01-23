@@ -60,7 +60,7 @@ public class HomeController : Controller
     private async Task<Size> GetVideoSize(string videoFileName)
     {
         var argument = $"-v error -select_streams v:0 -show_entries stream=width,height -of csv=p=0 {videoFileName}";
-        var process = CreateFfmpegProcess(argument);
+        var process = CreateFfmpegProcess(argument, ffprobe: true);
         process.Start();
 
         var stdOutput = await process.StandardOutput.ReadToEndAsync();
@@ -106,12 +106,13 @@ public class HomeController : Controller
     {
         var content = $"file '{videoFileFullPath}'\nfile '{imageVideoFileFullPath}'";
 
-        await System.IO.File.WriteAllTextAsync(inputFilePath, content, Encoding.UTF8);
+        Encoding utf8WithoutBom = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false);
+        await System.IO.File.WriteAllTextAsync(inputFilePath, content, utf8WithoutBom);
     }
 
     private async Task ConcatStream(FfmpegContext ffmpegContext)
     {
-        var argument = $"-f concat -i {ffmpegContext.InputFilePath} -c copy -movflags +faststart {ffmpegContext.OutputFilePath}";
+        var argument = $"-f concat -safe 0 -i {ffmpegContext.InputFilePath} -c copy -movflags +faststart {ffmpegContext.OutputFilePath}";
         _logger.LogInformation(argument);
         var process = CreateFfmpegProcess(argument);
         process.Start();
@@ -124,12 +125,12 @@ public class HomeController : Controller
         await file.CopyToAsync(fileStream);
     }
 
-    private Process CreateFfmpegProcess(string arguments)
+    private Process CreateFfmpegProcess(string arguments, bool ffprobe = false)
     {
         var process = new Process();
 
         process.StartInfo.UseShellExecute = false;
-        process.StartInfo.FileName = "ffmpeg";
+        process.StartInfo.FileName = ffprobe ? "ffprobe" : "ffmpeg";
         process.StartInfo.Arguments = arguments;
         process.StartInfo.CreateNoWindow = true;
         process.StartInfo.RedirectStandardOutput = true;
