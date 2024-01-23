@@ -41,8 +41,8 @@ public class HomeController : Controller
 
         var uploadContext = new UploadContext(_tempPath,
             _currentTimeStamp,
-            uploadedVideoFile!.FileName,
-            uploadedThumbnailFile!.FileName);
+            FilePathHelper.NormalizeFileName(uploadedVideoFile!.FileName),
+            FilePathHelper.NormalizeFileName(uploadedThumbnailFile!.FileName));
 
         await SaveFormFile(files["videoFile"]!, uploadContext.VideoSaveInfo);
 
@@ -90,7 +90,7 @@ public class HomeController : Controller
     private async Task InsertFrame(UploadContext context, FfmpegContext ffmpegContext)
     {
         await TransferImageIntoVideo(context.ImageSaveInfo.SavedFileNameWithExtension, ffmpegContext.TempImageVideoFilePath);
-        await CreateInputTextFile(context.VideoSaveInfo.SavedFileNameWithExtension, context.ImageSaveInfo.SavedFileNameWithExtension, ffmpegContext.InputFilePath);
+        await CreateInputTextFile(context.VideoSaveInfo.SavedFileName, ffmpegContext.TempImageVideoFileName, ffmpegContext.InputFilePath);
         await ConcatStream(ffmpegContext);
     }
 
@@ -102,9 +102,9 @@ public class HomeController : Controller
         await process.WaitForExitAsync();
     }
 
-    private async Task CreateInputTextFile(string videoFileFullPath, string imageVideoFileFullPath, string inputFilePath)
+    private async Task CreateInputTextFile(string videoFileName, string imageVideoName, string inputFilePath)
     {
-        var content = $"file '{videoFileFullPath}'\nfile '{imageVideoFileFullPath}'";
+        var content = $"file '{imageVideoName}'\nfile '{videoFileName}'";
 
         Encoding utf8WithoutBom = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false);
         await System.IO.File.WriteAllTextAsync(inputFilePath, content, utf8WithoutBom);
@@ -112,7 +112,7 @@ public class HomeController : Controller
 
     private async Task ConcatStream(FfmpegContext ffmpegContext)
     {
-        var argument = $"-f concat -safe 0 -i {ffmpegContext.InputFilePath} -c copy -movflags +faststart {ffmpegContext.OutputFilePath}";
+        var argument = $"-f concat -safe 0 -i {ffmpegContext.InputFilePath} -map \"[0:v]\" -map \"[1:v]\" -map \"[0:a]\" -map \"[1:a]\" -c copy {ffmpegContext.OutputFilePath}";
         _logger.LogInformation(argument);
         var process = CreateFfmpegProcess(argument);
         process.Start();
@@ -168,31 +168,27 @@ public class HomeController : Controller
     {
         public string FileNameWithoutExtension { set; get; }
         public string FileNameWithExtension { set; get; }
-        public string SavedFileNameWithoutExtension { set; get; }
         public string SavedFileNameWithExtension { set; get; }
+        public string SavedFileName { set; get; }
         public string FileExtension { set; get; }
-        // public Size Size { set; get; }
     }
 
     public class FfmpegContext
     {
         public string TempImageVideoFilePath { set; get; }
+        public string TempImageVideoFileName { set; get; }
         public string InputFilePath { set; get; }
         public string OutputFilePath { set; get; }
-        public string CreateInputFileContent(string videoFilePath)
-        {
-            return $"file '{videoFilePath}\nfile '{TempImageVideoFilePath}'";
-        }
-
-        // public string Create
 
         public FfmpegContext(string tempPath,
          string outputPath,
          UploadContext context,
          string timeStamp)
         {
+            TempImageVideoFileName = $"{FilePathHelper.ConstructFileNameToSave(context.ImageSaveInfo.FileNameWithoutExtension, timeStamp)}.mp4";
+
             InputFilePath = FilePathHelper.GetPathToSave(tempPath, FilePathHelper.ConstructFileNameToSave("files_container", timeStamp));
-            TempImageVideoFilePath = FilePathHelper.GetPathToSave(tempPath, $"{FilePathHelper.ConstructFileNameToSave(context.ImageSaveInfo.FileNameWithoutExtension, timeStamp)}.mp4");
+            TempImageVideoFilePath = FilePathHelper.GetPathToSave(tempPath, TempImageVideoFileName);
             OutputFilePath = FilePathHelper.GetPathToSave(outputPath, $"{FilePathHelper.ConstructFileNameToSave("output", timeStamp)}.mp4");
         }
     }
@@ -202,12 +198,14 @@ public class HomeController : Controller
 
         public static FileSaveInfo CreateUploadedMediaMetadata(string savePath, string filenameWithExtension, string timeStamp)
         {
+            var newFileName = ConstructFileNameToSave(filenameWithExtension, timeStamp);
             return new FileSaveInfo()
             {
                 FileNameWithExtension = filenameWithExtension,
                 FileNameWithoutExtension = Path.GetFileNameWithoutExtension(filenameWithExtension),
                 FileExtension = Path.GetExtension(filenameWithExtension),
-                SavedFileNameWithExtension = Path.Combine(savePath, ConstructFileNameToSave(filenameWithExtension, timeStamp))
+                SavedFileNameWithExtension = Path.Combine(savePath, newFileName),
+                SavedFileName = newFileName
             };
         }
 
@@ -219,6 +217,20 @@ public class HomeController : Controller
         public static string ConstructFileNameToSave(string fileName, string timeStamp)
         {
             return $"{timeStamp}_{fileName}";
+        }
+
+        public static string NormalizeFileName(string fileName)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (char c in fileName)
+            {
+                if ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == '.' || c == '_')
+                {
+                    sb.Append(c);
+                }
+            }
+
+            return sb.ToString();
         }
     }
 }
