@@ -10,7 +10,6 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     private readonly string _tempPath;
-    private readonly string _outputPath;
     private readonly string _currentTimeStamp;
     private readonly UploadContext _uploadContext;
 
@@ -18,7 +17,6 @@ public class HomeController : Controller
     {
         _logger = logger;
         _tempPath = configuration["SaveLocation"];
-        _outputPath = _tempPath + "/output";
         _currentTimeStamp = GetCurrentTimeStamp();
     }
 
@@ -50,11 +48,12 @@ public class HomeController : Controller
 
         await ResizeAndSaveThumbnail(uploadContext.ImageSaveInfo, uploadedThumbnailFile, videoSize);
 
-        var tempDataContext = new FfmpegContext(_tempPath, _outputPath, uploadContext, _currentTimeStamp);
+        var tempDataContext = new FfmpegContext(_tempPath, uploadContext, _currentTimeStamp);
 
         await InsertFrame(uploadContext, tempDataContext);
 
-        return View();
+        var stream = new FileStream(tempDataContext.OutputFilePath, FileMode.Open);
+        return File(stream, "application/octet", tempDataContext.OutputFileName);
     }
 
     private async Task<Size> GetVideoSize(string videoFileName)
@@ -90,13 +89,15 @@ public class HomeController : Controller
     private async Task InsertFrame(UploadContext context, FfmpegContext ffmpegContext)
     {
         await TransferImageIntoVideo(context.ImageSaveInfo.SavedFileNameWithExtension, ffmpegContext.TempImageVideoFilePath);
+
         await CreateInputTextFile(context.VideoSaveInfo.SavedFileName, ffmpegContext.TempImageVideoFileName, ffmpegContext.InputFilePath);
+
         await ConcatStream(ffmpegContext);
     }
 
     private async Task TransferImageIntoVideo(string imageFullPath, string outputFullPath)
     {
-        var argument = $"-loop 1 -i {imageFullPath} -c:v libx264 -t 0.17 -pix_fmt yuv420p {outputFullPath}";
+        var argument = $"-loop 1 -i {imageFullPath} -f lavfi -i anullsrc=channel_layout=stereo:sample_rate=44100 -c:v libx264 -t 0.17 -r 60 -shortest -preset slow {outputFullPath}";
         var process = CreateFfmpegProcess(argument);
         process.Start();
         await process.WaitForExitAsync();
@@ -112,7 +113,7 @@ public class HomeController : Controller
 
     private async Task ConcatStream(FfmpegContext ffmpegContext)
     {
-        var argument = $"-f concat -safe 0 -i {ffmpegContext.InputFilePath} -map \"[0:v]\" -map \"[1:v]\" -map \"[0:a]\" -map \"[1:a]\" -c copy {ffmpegContext.OutputFilePath}";
+        var argument = $"-f concat -safe 0 -i {ffmpegContext.InputFilePath} -c copy {ffmpegContext.OutputFilePath}";
         _logger.LogInformation(argument);
         var process = CreateFfmpegProcess(argument);
         process.Start();
@@ -179,9 +180,9 @@ public class HomeController : Controller
         public string TempImageVideoFileName { set; get; }
         public string InputFilePath { set; get; }
         public string OutputFilePath { set; get; }
+        public string OutputFileName { set; get; }
 
         public FfmpegContext(string tempPath,
-         string outputPath,
          UploadContext context,
          string timeStamp)
         {
@@ -189,7 +190,8 @@ public class HomeController : Controller
 
             InputFilePath = FilePathHelper.GetPathToSave(tempPath, FilePathHelper.ConstructFileNameToSave("files_container", timeStamp));
             TempImageVideoFilePath = FilePathHelper.GetPathToSave(tempPath, TempImageVideoFileName);
-            OutputFilePath = FilePathHelper.GetPathToSave(outputPath, $"{FilePathHelper.ConstructFileNameToSave("output", timeStamp)}.mp4");
+            OutputFileName = $"{FilePathHelper.ConstructFileNameToSave("output", timeStamp)}.mp4";
+            OutputFilePath = FilePathHelper.GetPathToSave(tempPath, OutputFileName);
         }
     }
 
