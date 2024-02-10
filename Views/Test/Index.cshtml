@@ -1,0 +1,8 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<form asp-action="Index" asp-controller="Test">
+    @Html.AntiForgeryToken()
+    <button type="submit">Submit</button>
+</form>

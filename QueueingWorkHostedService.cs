@@ -1,4 +1,3 @@
-
 namespace tikthumb;
 public class QueueingWorkHostedService : BackgroundService
 {

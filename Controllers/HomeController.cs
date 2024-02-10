@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
@@ -8,6 +9,8 @@ namespace tikthumb.Controllers;
 
 public class HomeController : Controller
 {
+    readonly static string[] AllowedVideoFileType = [".mov", ".avi", ".wmv", ".avchd", ".webm", ".flv", ".mkv", ".amv", ".mp4"];
+    readonly static string[] AllowedImageFileType = [".png", ".tiff", ".raw", ".jpg", ".webp", ".bmp", ".jpeg"];
     private readonly ILogger<HomeController> _logger;
     private readonly string _tempPath;
     private readonly string _currentTimeStamp;
@@ -27,15 +30,26 @@ public class HomeController : Controller
         return View();
     }
 
+    [ValidateAntiForgeryToken]
     [AcceptVerbs("POST")]
     [ActionName("Index")]
+    [AllowAnonymous]
     [RequestSizeLimit(100_000_000)]
     public async Task<IActionResult> Post()
     {
+        _logger.LogInformation("Inside the post request");
         var files = Request.Form.Files;
 
         var uploadedVideoFile = files["videoFile"];
         var uploadedThumbnailFile = files["thumbnailFile"];
+
+        var validateResult = ValidateFiles(uploadedVideoFile, uploadedThumbnailFile);
+
+        if (!validateResult)
+        {
+            _logger.LogError("Validation failed!");
+            return View();
+        }
 
         var uploadContext = new UploadContext(_tempPath,
             _currentTimeStamp,
@@ -54,6 +68,12 @@ public class HomeController : Controller
 
         var stream = new FileStream(tempDataContext.OutputFilePath, FileMode.Open);
         return File(stream, "application/octet", tempDataContext.OutputFileName);
+    }
+
+    private bool ValidateFiles(IFormFile videoFile, IFormFile thumbnailFile)
+    {
+        return (AllowedVideoFileType.Contains(Path.GetExtension(videoFile.FileName))
+        && AllowedImageFileType.Contains(Path.GetExtension(thumbnailFile.FileName)));
     }
 
     private async Task<Size> GetVideoSize(string videoFileName)
@@ -97,7 +117,7 @@ public class HomeController : Controller
 
     private async Task TransferImageIntoVideo(string imageFullPath, string outputFullPath)
     {
-        var argument = $"-loop 1 -i {imageFullPath} -f lavfi -i anullsrc=channel_layout=stereo:sample_rate=44100 -c:v libx264 -t 0.17 -r 60 -shortest -preset slow {outputFullPath}";
+        var argument = $"-loop 1 -i {imageFullPath} -f lavfi -i anullsrc=channel_layout=stereo:sample_rate=44100 -c:v libx264 -t 0.1 -r 30 -shortest -preset slow {outputFullPath}";
         var process = CreateFfmpegProcess(argument);
         process.Start();
         await process.WaitForExitAsync();
@@ -186,11 +206,11 @@ public class HomeController : Controller
          UploadContext context,
          string timeStamp)
         {
-            TempImageVideoFileName = $"{FilePathHelper.ConstructFileNameToSave(context.ImageSaveInfo.FileNameWithoutExtension, timeStamp)}.mp4";
+            TempImageVideoFileName = $"{FilePathHelper.ConstructFileNameToSave(context.ImageSaveInfo.FileNameWithoutExtension, timeStamp)}.{context.VideoSaveInfo.FileExtension}";
 
             InputFilePath = FilePathHelper.GetPathToSave(tempPath, FilePathHelper.ConstructFileNameToSave("files_container", timeStamp));
             TempImageVideoFilePath = FilePathHelper.GetPathToSave(tempPath, TempImageVideoFileName);
-            OutputFileName = $"{FilePathHelper.ConstructFileNameToSave("output", timeStamp)}.mp4";
+            OutputFileName = $"{FilePathHelper.ConstructFileNameToSave("output", timeStamp)}.{context.VideoSaveInfo.FileExtension}";
             OutputFilePath = FilePathHelper.GetPathToSave(tempPath, OutputFileName);
         }
     }

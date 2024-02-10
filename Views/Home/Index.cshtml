@@ -2,18 +2,76 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="row">
-    <div class="col-4 offset-4 border bg-light rounded">
-        <form enctype="multipart/form-data" class="p-4" method="post">
-            <div class="form-group row mb-3">
-                <label class="form-label">① Choose your video file</label>
-                <input name="videoFile" type="file" class="form-control" />
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4 d-lg-block d-none">Whatever</div>
+        <div class="col-lg-4 col-sm-12">
+            <div class="border bg-light rounded mb-3">
+                <form enctype="multipart/form-data" method="post" class="p-4" id="form">
+                    <div class="form-group row mb-3">
+                        <label class="form-label">① Choose your video file</label>
+                        <input required name="videoFile" accept=".mp4,.mov,.avi,.wmv,.avchd,.webm,.flv,.mkv,.amv"
+                            type="file" id="videoFile" class="form-control" />
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label class="form-label">② Choose the thumbnail image</label>
+                        <input required name="thumbnailFile" accept=".jpeg,.png,.tiff,.raw,.jpg, .webp,.bmp" type="file"
+                            id="thumbnailFile" class="form-control" />
+                    </div>
+                    <div class="form-group row">
+                        <button disabled class="btn btn-primary" id="submit-btn" type="submit">③ Submit</button>
+                    </div>
+                </form>
             </div>
-            <div class="form-group row mb-3">
-                <label class="form-label">② Choose the thumbnail image</label>
-                <input name="thumbnailFile" type="file" class="form-control" />
+            <div>
+                <h2>About Us</h2>
+                <p>Something about us</p>
             </div>
-            <button class="btn btn-primary">③ Submit</button>
-        </form>
+        </div>
+        <div class="col-lg-4 d-lg-block text-left d-none">
+            <h3>Help</h3>
+            <div class="w-100">👈 ① Select the Video you want to add thumbnail!</div>
+            <div>👈 ② Select the thumbnail. We suggest the thumbnail should have the same resolution with you video.
+                Otherwise, we will scale it for you 😉</div>
+            <div>👈 ③ Submit and leave the rest to us, we will process it and download it automatically once it's
+                done
+                😘</div>
+        </div>
     </div>
 </div>
+
+@section Scripts {
+
+    <script type="text/javascript">
+        const videoInput = document.getElementById("videoFile");
+        const thumbnailFile = document.getElementById("thumbnailFile");
+        const submitButton = document.getElementById("submit-btn");
+        const form = document.getElementById("form");
+
+        function setSubmitButtonState(enable) {
+            submitButton.disabled = !enable;
+        }
+
+        function formValid() {
+            return videoInput.value && thumbnailFile.value;
+        }
+
+        window.onload = () => {
+
+            videoInput.onchange = () => {
+                console.log('video file changed!');
+
+                setSubmitButtonState(formValid());
+            };
+
+            thumbnailFile.onchange = () => {
+                console.log('thumbnail file changed!');
+
+                setSubmitButtonState(formValid());
+            };
+
+            submitButton.onclick = () => {
+            };
+        };
+    </script>
+}
