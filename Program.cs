@@ -1,7 +1,22 @@
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.EntityFrameworkCore;
+using tikthumb.Db;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+// builder.Services.AddDbContextPool<DataProtectionDbContext>(options =>
+// {
+//     options.UseNpgsql(builder.Configuration.GetConnectionString("DataProtection"), configure =>
+//     {
+//         configure.EnableRetryOnFailure();
+//     });
+//     options.EnableDetailedErrors();
+// });
+
+// builder.Services.AddDataProtection()
+// .PersistKeysToDbContext<DataProtectionDbContext>();
 
 var app = builder.Build();
 

@@ -37,7 +37,6 @@ public class HomeController : Controller
     [RequestSizeLimit(100_000_000)]
     public async Task<IActionResult> Post()
     {
-        _logger.LogInformation("Inside the post request");
         var files = Request.Form.Files;
 
         var uploadedVideoFile = files["videoFile"];
@@ -66,14 +65,23 @@ public class HomeController : Controller
 
         await InsertFrame(uploadContext, tempDataContext);
 
-        var stream = new FileStream(tempDataContext.OutputFilePath, FileMode.Open);
-        return File(stream, "application/octet", tempDataContext.OutputFileName);
+        var stream = new FileStream(tempDataContext.FinalOutputFilePath, FileMode.Open);
+        return File(stream, "application/octet", tempDataContext.FinalOutputFileName);
     }
 
     private bool ValidateFiles(IFormFile videoFile, IFormFile thumbnailFile)
     {
         return (AllowedVideoFileType.Contains(Path.GetExtension(videoFile.FileName))
         && AllowedImageFileType.Contains(Path.GetExtension(thumbnailFile.FileName)));
+    }
+
+    private async Task<string> GetVideoLength(string fullVideoName)
+    {
+        var process = CreateFfmpegProcess($"-i {fullVideoName} -show_entries format=duration -v quiet -of csv=\"p=0\" -sexagesimal", ffprobe: true);
+        process.Start();
+        var stdOutput = await process.StandardOutput.ReadToEndAsync();
+        await process.WaitForExitAsync();
+        return stdOutput;
     }
 
     private async Task<Size> GetVideoSize(string videoFileName)
@@ -83,7 +91,6 @@ public class HomeController : Controller
         process.Start();
 
         var stdOutput = await process.StandardOutput.ReadToEndAsync();
-        _logger.LogInformation($"Stdoutput is: {stdOutput}");
 
         var dimensionArray = stdOutput.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(x => int.Parse(x)).ToList();
         return new Size(dimensionArray[0], dimensionArray[1]);
@@ -108,33 +115,53 @@ public class HomeController : Controller
 
     private async Task InsertFrame(UploadContext context, FfmpegContext ffmpegContext)
     {
-        await TransferImageIntoVideo(context.ImageSaveInfo.SavedFileNameWithExtension, ffmpegContext.TempImageVideoFilePath);
+        await TransferImageIntoVideo(context.VideoSaveInfo.SavedFileNameWithExtension, context.ImageSaveInfo.SavedFileNameWithExtension, ffmpegContext.TempImageVideoFilePath);
 
         await CreateInputTextFile(context.VideoSaveInfo.SavedFileName, ffmpegContext.TempImageVideoFileName, ffmpegContext.InputFilePath);
 
-        await ConcatStream(ffmpegContext);
+        await ConcatStream(ffmpegContext, (context) => context.OutputFilePath);
+
+        await CutEnd(ffmpegContext, context);
+
+        await CreateInputTextFile(ffmpegContext.CuttedEndPartFileName, context.VideoSaveInfo.SavedFileName, ffmpegContext.InputFilePath);
+
+        await ConcatStream(ffmpegContext, (context) => context.FinalOutputFilePath);
     }
 
-    private async Task TransferImageIntoVideo(string imageFullPath, string outputFullPath)
+    private async Task TransferImageIntoVideo(string videoFullPath, string imageFullPath, string outputFullPath)
     {
-        var argument = $"-loop 1 -i {imageFullPath} -f lavfi -i anullsrc=channel_layout=stereo:sample_rate=44100 -c:v libx264 -t 0.1 -r 30 -shortest -preset slow {outputFullPath}";
+        var preset = await GetVideoPreset(videoFullPath);
+        _logger.LogInformation(preset);
+        // var argument = $"-loop 1 -i {imageFullPath} -f lavfi -i anullsrc=channel_layout=stereo:sample_rate=44100 -c:v libx264 -t 3 -r 60 -shortest -preset slow {outputFullPath}";
+        var argument = $"-loop 1 -i {imageFullPath} -t 3 -c:v copy -preset {preset} {outputFullPath}";
         var process = CreateFfmpegProcess(argument);
         process.Start();
         await process.WaitForExitAsync();
     }
 
+    private async Task<string> GetVideoPreset(string videoPath)
+    {
+        var argument = $"-select_streams v:0 -show_entries stream=codec_name,codec_long_name -v quiet ${videoPath}";
+        var process = CreateFfmpegProcess(argument, ffprobe: true);
+        process.Start();
+
+        var stdOutput = await process.StandardOutput.ReadToEndAsync();
+        await process.WaitForExitAsync();
+        return stdOutput;
+    }
+
     private async Task CreateInputTextFile(string videoFileName, string imageVideoName, string inputFilePath)
     {
-        var content = $"file '{imageVideoName}'\nfile '{videoFileName}'";
+        // var content = $"file '{imageVideoName}'\nfile '{videoFileName}'";
+        var content = $"file '{videoFileName} \nfile '{imageVideoName}'";
 
         Encoding utf8WithoutBom = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false);
         await System.IO.File.WriteAllTextAsync(inputFilePath, content, utf8WithoutBom);
     }
 
-    private async Task ConcatStream(FfmpegContext ffmpegContext)
+    private async Task ConcatStream(FfmpegContext ffmpegContext, Func<FfmpegContext, string> outFilePath)
     {
-        var argument = $"-f concat -safe 0 -i {ffmpegContext.InputFilePath} -c copy {ffmpegContext.OutputFilePath}";
-        _logger.LogInformation(argument);
+        var argument = $"-f concat -safe 0 -i {ffmpegContext.InputFilePath} -c copy {outFilePath(ffmpegContext)}";
         var process = CreateFfmpegProcess(argument);
         process.Start();
         await process.WaitForExitAsync();
@@ -144,6 +171,30 @@ public class HomeController : Controller
     {
         using var fileStream = new FileStream(fileSaveInfo.SavedFileNameWithExtension, FileMode.Create);
         await file.CopyToAsync(fileStream);
+    }
+
+    private async Task SplitVideoStream(UploadContext context, FfmpegContext ffmpegContext)
+    {
+
+    }
+
+    private async Task CutEnd(FfmpegContext ffmpegContext, UploadContext uploadContext)
+    {
+        var videoLength = await GetVideoLength(uploadContext.VideoSaveInfo.SavedFileNameWithExtension);
+        var formattedVideoLength = FormatVideoDuration(videoLength);
+        _logger.LogInformation($"Video length is {formattedVideoLength}");
+
+        var outputVideoLength = await GetVideoLength(ffmpegContext.OutputFilePath);
+        var formattedOutputVideoLength = FormatVideoDuration(outputVideoLength);
+        _logger.LogInformation($"New video length is {formattedOutputVideoLength}");
+
+        var argument = $"-i {ffmpegContext.OutputFilePath} -ss {formattedVideoLength} -to {formattedOutputVideoLength} -acodec copy -vcodec libx264 {ffmpegContext.CuttedEndPartFilePath}";
+
+        var process = CreateFfmpegProcess(argument);
+
+        process.Start();
+
+        await process.WaitForExitAsync();
     }
 
     private Process CreateFfmpegProcess(string arguments, bool ffprobe = false)
@@ -165,11 +216,17 @@ public class HomeController : Controller
         return unixTimestamp;
     }
 
+    private string FormatVideoDuration(string duration)
+    {
+        var parts = duration.Split(':');
+        var seconds = parts[2].Split('.');
+        return $"{int.Parse(parts[0]).ToString("00")}:{int.Parse(parts[1]).ToString("00")}:{int.Parse(seconds[0]).ToString("00")}.{seconds[1].Substring(0, 3)}";
+    }
+
     public record UploadContext
     {
         public FileSaveInfo ImageSaveInfo { set; get; }
         public FileSaveInfo VideoSaveInfo { set; get; }
-        public FfmpegContext IntermediateFile { set; get; }
         public string CurrentTimestamp { set; get; }
 
         public UploadContext(string tempPath,
@@ -196,6 +253,10 @@ public class HomeController : Controller
 
     public class FfmpegContext
     {
+        public string CuttedEndPartFileName { set; get; }
+        public string CuttedEndPartFilePath { set; get; }
+        public string FinalOutputFileName { set; get; }
+        public string FinalOutputFilePath { set; get; }
         public string TempImageVideoFilePath { set; get; }
         public string TempImageVideoFileName { set; get; }
         public string InputFilePath { set; get; }
@@ -206,12 +267,19 @@ public class HomeController : Controller
          UploadContext context,
          string timeStamp)
         {
-            TempImageVideoFileName = $"{FilePathHelper.ConstructFileNameToSave(context.ImageSaveInfo.FileNameWithoutExtension, timeStamp)}.{context.VideoSaveInfo.FileExtension}";
+            TempImageVideoFileName = $"{FilePathHelper.ConstructFileNameToSave(context.ImageSaveInfo.FileNameWithoutExtension, timeStamp)}{context.VideoSaveInfo.FileExtension}";
 
             InputFilePath = FilePathHelper.GetPathToSave(tempPath, FilePathHelper.ConstructFileNameToSave("files_container", timeStamp));
             TempImageVideoFilePath = FilePathHelper.GetPathToSave(tempPath, TempImageVideoFileName);
-            OutputFileName = $"{FilePathHelper.ConstructFileNameToSave("output", timeStamp)}.{context.VideoSaveInfo.FileExtension}";
+
+            OutputFileName = $"{FilePathHelper.ConstructFileNameToSave("output", timeStamp)}{context.VideoSaveInfo.FileExtension}";
             OutputFilePath = FilePathHelper.GetPathToSave(tempPath, OutputFileName);
+
+            CuttedEndPartFileName = $"{FilePathHelper.ConstructFileNameToSave("end", timeStamp)}{context.VideoSaveInfo.FileExtension}";
+            CuttedEndPartFilePath = FilePathHelper.GetPathToSave(tempPath, CuttedEndPartFileName);
+
+            FinalOutputFileName = $"{FilePathHelper.ConstructFileNameToSave("final", timeStamp)}{context.VideoSaveInfo.FileExtension}";
+            FinalOutputFilePath = FilePathHelper.GetPathToSave(tempPath, $"{FinalOutputFileName}");
         }
     }
 
