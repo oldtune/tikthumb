@@ -7,7 +7,7 @@ public record FfprobeVideoInfo
 
     public FfprobeVideoInfo(IEnumerable<FfmpegStreamInfo> streams)
     {
-        // this.AudioStreamInfo = streams.FirstOrDefault(x => x.CodecType == "audio");
-        // this.VideoStreamInfo = streams.FirstOrDefault(x => x.CodecType == "video");
+        AudioStreamInfo = new FfmpegAudioStreamInfo(streams.FirstOrDefault(x => x.CodecType == "audio"));
+        VideoStreamInfo = new FfmpegVideoStreamInfo(streams.FirstOrDefault(x => x.CodecType == "video"));
     }
 }

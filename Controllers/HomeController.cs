@@ -11,7 +11,7 @@ namespace tikthumb.Controllers;
 
 public class HomeController : Controller
 {
-    readonly static string[] AllowedVideoFileType = [".mov", ".avi", ".wmv", ".avchd", ".webm", ".flv", ".mkv", ".amv", ".mp4"];
+    readonly static string[] AllowedVideoFileType = [".mov", ".avi", ".wmv", ".webm", ".flv", ".mkv", ".amv", ".mp4"];
     readonly static string[] AllowedImageFileType = [".png", ".tiff", ".raw", ".jpg", ".webp", ".bmp", ".jpeg"];
     private readonly ILogger<HomeController> _logger;
     private readonly string _tempPath;

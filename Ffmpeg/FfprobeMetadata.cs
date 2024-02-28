@@ -56,6 +56,22 @@ public record FfmpegVideoStreamInfo
     [JsonProperty("avg_frame_rate")]
     public string AverageFrameRate { get; }
     #endregion
+
+    public FfmpegVideoStreamInfo()
+    {
+
+    }
+
+    public FfmpegVideoStreamInfo(FfmpegStreamInfo streamInfo)
+    {
+        CodecType = streamInfo.CodecType;
+        CodecName = streamInfo.CodecName;
+        Profile = streamInfo.Profile;
+        BitRate = streamInfo.BitRate;
+        PixelFormat = streamInfo.PixelFormat;
+        Level = streamInfo.Level;
+        AverageFrameRate = streamInfo.AverageFrameRate;
+    }
 }
 
 public record FfmpegAudioStreamInfo
@@ -81,4 +97,21 @@ public record FfmpegAudioStreamInfo
     [JsonProperty("channel_layout")]
     public string ChannelLayout { get; }
     #endregion
+
+    public FfmpegAudioStreamInfo()
+    {
+
+    }
+
+    public FfmpegAudioStreamInfo(FfmpegStreamInfo streamInfo)
+    {
+        CodecType = streamInfo.CodecType;
+        CodecName = streamInfo.CodecName;
+        Profile = streamInfo.Profile;
+        BitRate = streamInfo.BitRate;
+        SampleFormat = streamInfo.SampleFormat;
+        SampleRate = streamInfo.SampleRate;
+        Channels = streamInfo.Channels;
+        ChannelLayout = streamInfo.ChannelLayout;
+    }
 }
