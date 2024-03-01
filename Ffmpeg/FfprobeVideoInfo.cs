@@ -1,8 +1,12 @@
+using Newtonsoft.Json;
+
 namespace tikthumb.Ffmpeg;
 public record FfprobeVideoInfo
 {
-    private List<FfmpegStreamInfo> Streams { get; }
+    public List<FfmpegStreamInfo> Streams { get; }
+    [JsonIgnore]
     public FfmpegAudioStreamInfo AudioStreamInfo { get; }
+    [JsonIgnore]
     public FfmpegVideoStreamInfo VideoStreamInfo { get; }
 
     public FfprobeVideoInfo(IEnumerable<FfmpegStreamInfo> streams)
