@@ -132,9 +132,10 @@ public class HomeController : Controller
         process.Start();
 
         var stdOutput = await process.StandardOutput.ReadToEndAsync();
+        _logger.LogInformation(stdOutput);
 
-        var streams = JsonConvert.DeserializeObject<List<FfmpegStreamInfo>>(stdOutput);
-        return new FfprobeVideoInfo(streams);
+        var videoInfo = JsonConvert.DeserializeObject<FfprobeVideoInfo>(stdOutput);
+        return videoInfo;
     }
 
     private async Task CreateInputTextFile(string videoFileName, string imageVideoName, string inputFilePath)
