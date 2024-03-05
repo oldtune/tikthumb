@@ -1,37 +1,37 @@
 using Newtonsoft.Json;
 
 namespace tikthumb.Ffmpeg;
-public record FfmpegStreamInfo
+public class FfmpegStreamInfo
 {
     #region common
     [JsonProperty("codec_type")]
-    public string CodecType { get; }
+    public string CodecType { get; set; }
     [JsonProperty("codec_name")]
-    public string CodecName { get; }
+    public string CodecName { get; set; }
     [JsonProperty("profile")]
-    public string Profile { get; }
+    public string Profile { get; set; }
     [JsonProperty("bit_rate")]
-    public string BitRate { get; }
+    public string BitRate { get; set; }
     #endregion
 
     #region video
     [JsonProperty("pix_fmt")]
-    public string PixelFormat { get; }
+    public string PixelFormat { get; set; }
     [JsonProperty("level")]
-    public string Level { get; }
+    public string Level { get; set; }
     [JsonProperty("avg_frame_rate")]
-    public string AverageFrameRate { get; }
+    public string AverageFrameRate { get; set; }
     #endregion
 
     #region audio
     [JsonProperty("sample_fmt")]
-    public string SampleFormat { get; }
+    public string SampleFormat { get; set; }
     [JsonProperty("sample_rate")]
-    public string SampleRate { get; }
+    public string SampleRate { get; set; }
     [JsonProperty("channels")]
-    public string Channels { get; }
+    public string Channels { get; set; }
     [JsonProperty("channel_layout")]
-    public string ChannelLayout { get; }
+    public string ChannelLayout { get; set; }
     #endregion
 }
 
@@ -55,6 +55,8 @@ public record FfmpegVideoStreamInfo
     public string Level { get; }
     [JsonProperty("avg_frame_rate")]
     public string AverageFrameRate { get; }
+    [JsonIgnore]
+    public string FrameRate => string.IsNullOrWhiteSpace(AverageFrameRate) ? "0" : AverageFrameRate.Split('/', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault();
     #endregion
 
     public FfmpegVideoStreamInfo()

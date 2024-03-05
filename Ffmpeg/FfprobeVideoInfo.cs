@@ -1,17 +1,18 @@
 using Newtonsoft.Json;
 
 namespace tikthumb.Ffmpeg;
-public record FfprobeVideoInfo
+public class FfprobeVideoInfo
 {
-    public List<FfmpegStreamInfo> Streams { get; }
+    public List<FfmpegStreamInfo> Streams { get; set; }
     [JsonIgnore]
-    public FfmpegAudioStreamInfo AudioStreamInfo { get; }
-    [JsonIgnore]
-    public FfmpegVideoStreamInfo VideoStreamInfo { get; }
+    public FfmpegAudioStreamInfo AudioStreamInfo
+        => new FfmpegAudioStreamInfo(Streams.FirstOrDefault(x => x.CodecType == "audio"));
 
-    public FfprobeVideoInfo(IEnumerable<FfmpegStreamInfo> streams)
+    [JsonIgnore]
+    public FfmpegVideoStreamInfo VideoStreamInfo => new FfmpegVideoStreamInfo(Streams.FirstOrDefault(x => x.CodecType == "video"));
+
+    public FfprobeVideoInfo()
     {
-        AudioStreamInfo = new FfmpegAudioStreamInfo(streams.FirstOrDefault(x => x.CodecType == "audio"));
-        VideoStreamInfo = new FfmpegVideoStreamInfo(streams.FirstOrDefault(x => x.CodecType == "video"));
+
     }
 }
