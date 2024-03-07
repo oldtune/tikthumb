@@ -1,0 +1,3 @@
+docker build -t tikthumb .
+docker tag tikthumb:latest 298086761063.dkr.ecr.ap-southeast-1.amazonaws.com/tikthumb:latest
+docker push 298086761063.dkr.ecr.ap-southeast-1.amazonaws.com/tikthumb:latest
