@@ -1,5 +1,13 @@
-html {
-  font-size: 14px;
+.madimi-one-regular {
+  font-family: "Madimi One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+html body {
+  font-family: "Madimi One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
 @media (min-width: 768px) {
@@ -17,12 +25,24 @@ html {
 }
 
 html {
+  font-size: 14px;
   position: relative;
   min-height: 100%;
+  color: white;
+  /* background: #421983; */
+}
+
+html body {
+  background-image: url("/wave-haikei.svg");
+}
+
+html nav a {
+  color: white;
 }
 
 body {
   min-height: 100vh;
+  color: white;
 }
 
 .footer {
@@ -30,4 +50,60 @@ body {
   position: absolute;
   bottom: 0;
   width: 100%;
+}
+
+#page-header {
+  /* z-index: 2; */
+  position: sticky;
+  top: 0;
+  /* background-color: #2e005e; */
+}
+
+#page-content {
+  position: relative;
+  height: 100vh;
+  overflow-y: scroll;
+}
+
+.left-side {
+  /* background: #421983; */
+}
+
+.left-side-logo-wrapper {
+}
+
+.left-side-logo {
+  font-size: 40px;
+}
+
+.left-side-description {
+  font-size: 28px;
+}
+
+.form-wrapper {
+  width: 400px;
+  height: 400px;
+  background-color: #ff788f;
+  border-radius: 50%;
+  padding: 20px;
+  margin-top: -50px;
+}
+
+.submit-button-wrapper {
+  cursor: pointer;
+}
+
+.submit-button-wrapper.submit-button-wrapper__disabled {
+  cursor: not-allowed;
+}
+
+#submit-btn {
+  cursor: not-allowed;
+  background: #b77ffe;
+}
+
+.form-wrapper-background-wrapper {
+  padding: 15px;
+  background-color: #ff788f;
+  border-radius: 25% 25% 50% 50%;
 }

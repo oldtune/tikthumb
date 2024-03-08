@@ -2,11 +2,18 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="container">
-    <div class="row">
-        <div class="col-lg-4 d-lg-block d-none">Whatever</div>
-        <div class="col-lg-4 col-sm-12">
-            <div class="border bg-light rounded mb-3">
+<div class="row h-100">
+    <div
+        class="col-12 col-lg-6 d-flex flex-column justify-content-center align-items-center left-side left-side-logo-wrapper">
+        <div class="left-side-logo">Tikthumb</div>
+        <div class="left-side-description">We do all the thumbnail work for you</div>
+    </div>
+
+    <div class="d-flex justify-content-center align-items-center col-12 col-lg-6">
+        <div class="form-wrapper-background-wrapper">
+
+            @* <div class="container d-flex justify-content-center align-items-center"> *@
+            <div class="form-wrapper d-flex flex-column justify-content-center align-items-center text-dark">
                 <form enctype="multipart/form-data" method="post" class="p-4" id="form">
                     <div class="form-group row mb-3">
                         <label class="form-label">① Choose your video file</label>
@@ -18,26 +25,24 @@
                         <input required name="thumbnailFile" accept=".jpeg,.png,.tiff,.raw,.jpg, .webp,.bmp" type="file"
                             id="thumbnailFile" class="form-control" />
                     </div>
-                    <div class="form-group row">
-                        <button disabled class="btn btn-primary" id="submit-btn" type="submit">③ Submit</button>
+                    <div class="form-group row submit-button-wrapper submit-button-wrapper__disabled"
+                        id="submit-button-wrapper">
+                        <button disabled="true" class="btn btn-primary" id="submit-btn" type="submit">③ Submit</button>
                     </div>
                 </form>
             </div>
-            <div>
-                <h2>About Us</h2>
-                <p>Something about us</p>
-            </div>
         </div>
-        <div class="col-lg-4 d-lg-block text-left d-none">
-            <h3>Help</h3>
-            <div class="w-100">👈 ① Select the Video you want to add thumbnail!</div>
-            <div>👈 ② Select the thumbnail. We suggest the thumbnail should have the same resolution with you video.
-                Otherwise, we will scale it for you 😉</div>
-            <div>👈 ③ Submit and leave the rest to us, we will process it and download it automatically once it's
-                done
-                😘</div>
-        </div>
+        @* </div> *@
     </div>
+    @* <div class="col-12 col-lg-6 d-none d-lg-block">
+    <h3>Help</h3>
+    <div class="w-100">👈 ① Select the Video you want to add thumbnail!</div>
+    <div>👈 ② Select the thumbnail. We suggest the thumbnail should have the same resolution with you video.
+    Otherwise, we will scale it for you 😉</div>
+    <div>👈 ③ Submit and leave the rest to us, we will process it and download it automatically once it's
+    done
+    😘</div>
+    </div> *@
 </div>
 
 @section Scripts {
@@ -45,10 +50,16 @@
     <script type="text/javascript">
         const videoInput = document.getElementById("videoFile");
         const thumbnailFile = document.getElementById("thumbnailFile");
+        const submitButtonWrapper = document.getElementById("submit-button-wrapper");
         const submitButton = document.getElementById("submit-btn");
         const form = document.getElementById("form");
 
         function setSubmitButtonState(enable) {
+            if (enable) {
+                submitButtonWrapper.className = submitButtonWrapper.className.replace("submit-button-wrapper__disabled", "");
+            }
+
+            submitButtonWrapper.className = `${submitButtonWrapper.className} submit-button-wrapper__disabled`;
             submitButton.disabled = !enable;
         }
 
