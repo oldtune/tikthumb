@@ -1,4 +1,6 @@
 using System.Diagnostics;
+using System.Net;
+using System.Net.Http.Headers;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -48,7 +50,7 @@ public class HomeController : Controller
         if (!validateResult)
         {
             _logger.LogError("Validation failed!");
-            return View();
+            return BadRequest("Bad file extensions");
         }
 
         var uploadContext = new UploadContext(_tempPath,
@@ -62,12 +64,22 @@ public class HomeController : Controller
 
         await ResizeAndSaveThumbnail(uploadContext.ImageSaveInfo, uploadedThumbnailFile, videoSize);
 
-        var tempDataContext = new FfmpegContext(_tempPath, uploadContext, _currentTimeStamp);
+        var ffmpegContext = new FfmpegContext(_tempPath, uploadContext, _currentTimeStamp);
 
-        await InsertFrame(uploadContext, tempDataContext);
+        await InsertFrame(uploadContext, ffmpegContext);
 
-        var stream = new FileStream(tempDataContext.OutputFilePath, FileMode.Open);
-        return File(stream, "application/octet", tempDataContext.OutputFileName);
+        CleanUp(uploadContext, ffmpegContext);
+
+        var stream = new FileStream(ffmpegContext.OutputFilePath, FileMode.Open);
+        return new CustomFileStreamResult(stream, ffmpegContext.OutputFilePath, ffmpegContext.OutputFileName);
+    }
+
+    public void CleanUp(UploadContext uploadContext, FfmpegContext tempContext)
+    {
+        System.IO.File.Delete(uploadContext.VideoSaveInfo.SavedFileNameWithExtension);
+        System.IO.File.Delete(uploadContext.ImageSaveInfo.SavedFileNameWithExtension);
+        System.IO.File.Delete(tempContext.TempImageVideoFilePath);
+        System.IO.File.Delete(tempContext.InputFilePath);
     }
 
     private bool ValidateFiles(IFormFile videoFile, IFormFile thumbnailFile)
