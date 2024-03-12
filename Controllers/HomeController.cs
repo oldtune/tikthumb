@@ -191,4 +191,46 @@ public class HomeController : Controller
         string unixTimestamp = Convert.ToString((int)DateTime.Now.Subtract(new DateTime(1970, 1, 1)).TotalSeconds);
         return unixTimestamp;
     }
+
+    [HttpGet]
+    [ActionName("contact")]
+    public IActionResult Contact()
+    {
+        return View();
+    }
+
+    [HttpGet]
+    [ActionName("about")]
+    public IActionResult About()
+    {
+        return View();
+    }
+
+    [HttpGet]
+    [ActionName("BugReport")]
+    public IActionResult BugReport()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    [ActionName("BugReport")]
+    public IActionResult PostBugReport()
+    {
+        return View();
+    }
+
+    [HttpGet]
+    [ActionName("FeatureRequest")]
+    public IActionResult GetFeatureRequestPage()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    [ActionName("FeatureRequest")]
+    public IActionResult PostFeatureRequest()
+    {
+        return View();
+    }
 }

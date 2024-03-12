@@ -10,6 +10,12 @@ html body {
   font-style: normal;
 }
 
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
 @media (min-width: 768px) {
   html {
     font-size: 16px;
@@ -61,8 +67,9 @@ body {
 
 #page-content {
   position: relative;
-  height: 100vh;
-  overflow-y: scroll;
+  /* height: 100vh; */
+  /* overflow-y: scroll; */
+  height: 100%;
 }
 
 .left-side-logo {
@@ -110,4 +117,12 @@ a.nav-link:hover {
 
 a:hover {
   color: #c7fa73;
+}
+
+.email {
+  font-size: 72px;
+  background: -webkit-linear-gradient(#eee, #333);
+  /* background: -webkit-linear-gradient(#c7fa73, #ff788f); */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
