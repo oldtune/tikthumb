@@ -65,15 +65,8 @@ body {
   overflow-y: scroll;
 }
 
-.left-side {
-  /* background: #421983; */
-}
-
-.left-side-logo-wrapper {
-}
-
 .left-side-logo {
-  font-size: 40px;
+  font-size: 60px;
 }
 
 .left-side-description {
@@ -105,4 +98,16 @@ body {
   padding: 15px;
   background-color: #ff788f;
   border-radius: 25% 25% 50% 50%;
+}
+
+a.nav-link {
+  color: white;
+}
+
+a.nav-link:hover {
+  color: #c7fa73;
+}
+
+a:hover {
+  color: #c7fa73;
 }
