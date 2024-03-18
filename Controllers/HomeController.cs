@@ -130,7 +130,7 @@ public class HomeController : Controller
     {
         var videoMetadata = await GetVideoMetadata(videoFullPath);
 
-        var arguments = $"-loop 1 -i {imageFullPath} -f lavfi -i anullsrc=channel_layout=stereo:sample_rate={videoMetadata.AudioStreamInfo.SampleRate} -ac {videoMetadata.AudioStreamInfo.Channels} -c:a {videoMetadata.AudioStreamInfo.CodecName} -b:a {videoMetadata.AudioStreamInfo.BitRate} -c:v {videoMetadata.VideoStreamInfo.CodecName} -level:v {videoMetadata.VideoStreamInfo.Level} -b:v {videoMetadata.VideoStreamInfo.BitRate} -pix_fmt {videoMetadata.VideoStreamInfo.PixelFormat} -t 0.05 -r {videoMetadata.VideoStreamInfo.AverageFrameRate} -profile:v {videoMetadata.VideoStreamInfo.Profile.ToLower()} {outputFullPath}";
+        var arguments = $"-loop 1 -i {imageFullPath} -f lavfi -i anullsrc=channel_layout=stereo:sample_rate={videoMetadata.AudioStreamInfo?.SampleRate ?? "44100"} -ac {videoMetadata.AudioStreamInfo?.Channels ?? "2"} -c:a {videoMetadata.AudioStreamInfo?.CodecName ?? "aac"} -b:a {videoMetadata.AudioStreamInfo?.BitRate ?? "128011"} -c:v {videoMetadata.VideoStreamInfo.CodecName} -level:v {videoMetadata.VideoStreamInfo.Level} -b:v {videoMetadata.VideoStreamInfo.BitRate} -pix_fmt {videoMetadata.VideoStreamInfo.PixelFormat} -t 0.01 -r {videoMetadata.VideoStreamInfo.AverageFrameRate} -profile:v {videoMetadata.VideoStreamInfo.Profile.ToLower()} {outputFullPath}";
 
         _logger.LogInformation(arguments);
 
