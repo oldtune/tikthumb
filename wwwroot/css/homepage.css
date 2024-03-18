@@ -63,9 +63,9 @@
 }
 
 .step-image {
-  height: 75px;
-  width: 75px;
-  object-fit: cover;
+  height: 150px;
+  width: 150px;
+  object-fit: fill;
   background: #b880ff;
   border-color: #370d7a;
   border-style: groove;
@@ -85,6 +85,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 16px;
+  font-size: 28px;
+  color: white;
   background: #b77ffe;
 }
