@@ -22,14 +22,6 @@ body {
   }
 }
 
-.btn:focus,
-.btn:active:focus,
-.btn-link.nav-link:focus,
-.form-control:focus,
-.form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
 html {
   font-size: 14px;
   position: relative;
@@ -51,62 +43,6 @@ body {
   color: white;
 }
 
-.footer {
-  height: 60px;
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-}
-
-#page-header {
-  /* z-index: 2; */
-  position: sticky;
-  top: 0;
-  /* background-color: #2e005e; */
-}
-
-#page-content {
-  position: relative;
-  /* height: 100vh; */
-  /* overflow-y: scroll; */
-  height: 100%;
-}
-
-.left-side-logo {
-  font-size: 60px;
-}
-
-.left-side-description {
-  font-size: 28px;
-}
-
-.form-wrapper {
-  width: 400px;
-  height: 400px;
-  background-color: #ff788f;
-  border-radius: 50%;
-  padding: 20px;
-  margin-top: -50px;
-}
-
-.submit-button-wrapper {
-  cursor: pointer;
-}
-
-.submit-button-wrapper.submit-button-wrapper__disabled {
-  cursor: not-allowed;
-}
-
-#submit-btn {
-  background: #b77ffe;
-}
-
-.form-wrapper-background-wrapper {
-  padding: 15px;
-  background-color: #ff788f;
-  border-radius: 25% 25% 50% 50%;
-}
-
 a.nav-link {
   color: white;
 }
@@ -119,10 +55,7 @@ a:hover {
   color: #c7fa73;
 }
 
-.email {
-  font-size: 72px;
-  background: -webkit-linear-gradient(#eee, #333);
-  /* background: -webkit-linear-gradient(#c7fa73, #ff788f); */
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+#nav-item-home {
+  text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.3),
+    0px -1px 0px rgba(0, 0, 0, 0.7);
 }
