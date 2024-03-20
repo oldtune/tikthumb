@@ -10,7 +10,7 @@ using tikthumb.Db;
 
 namespace tikthumb.Migrations
 {
-    [DbContext(typeof(DataProtectionDbContext))]
+    [DbContext(typeof(TikthumbDbContext))]
     [Migration("20240212070611_Init")]
     partial class Init
     {

@@ -1,9 +1,14 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb#">
 
 <head>
+    <meta property="og:image" content="~/tikthumb-log.png" />
+    <meta property="og:title" content="Tikthumb" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Free Tiktok thumbnail Website">
+    <meta name="keywords" content="tikok, thumbnail, tikthumb">
+    <meta name="author" content="Do Tran">
     <title>@ViewData["Title"] - Tikthumb</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -55,15 +60,6 @@
                                 </span>Contact</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="About"><span
-                                    class="material-symbols-outlined">
-
-                                </span>
-                                <span class="material-symbols-outlined">
-                                    info
-                                </span>About</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Pricing"><span
                                     class="material-symbols-outlined">
                                 </span>
@@ -86,4 +82,4 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 
-</html>
+</>

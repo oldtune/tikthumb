@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Tikthumb";
+    ViewData["Title"] = "Home";
 }
 
 @section Styling {
@@ -9,7 +9,7 @@
 <div class="container">
     <div class="row h-100">
         <div
-            class="col-12 col-lg-6 d-flex flex-column flex-wrap justify-content-center align-items-center left-side left-side-logo-wrapper">
+            class="col-12 col-lg-6 d-flex flex-column flex-wrap justify-content-center align-items-left left-side left-side-logo-wrapper">
             <div class="left-side-logo animate__animated animate__bounce">Tikthumb</div>
             <div class="left-side-description">
                 <p>We embed custom thumbnail into the video for you.</p>
@@ -46,11 +46,18 @@
                 </div>
             </div>
         </div>
-
-        <div class="d-flex justify-content-center align-items-center col-12 col-lg-6">
-            <div class="form-wrapper-background-wrapper">
+        <div
+            class="col-12 col-lg-6 justify-content-center d-flex justify-content-center align-items-center flex-column flex-nowrap">
+            <div class="w-100 pb-5 try-here">
+                <span class="display-3">Try here</spa>
+                    <span
+                        class="material-symbols-outlined display-3 animate__infinite animate__slower animate__animated animate__shakeY">
+                        arrow_downward
+                    </span>
+            </div>
+            <div class="form-wrapper-background-wrapper w-100">
                 <div class="form-wrapper d-flex flex-column justify-content-center align-items-center text-dark">
-                    <form enctype="multipart/form-data" method="post" class="p-4" id="form">
+                    <form enctype="multipart/form-data" method="post" class="p-5" id="form">
                         <div class="form-group row mb-3">
                             <label class="form-label">① Choose your video file</label>
                             <input required name="videoFile" accept=".mp4,.mov,.avi,.wmv,.webm,.flv,.mkv,.amv"

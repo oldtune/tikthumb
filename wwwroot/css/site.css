@@ -13,7 +13,6 @@ html body {
 body {
   display: flex;
   flex-direction: column;
-  height: 100vh;
 }
 
 @media (min-width: 768px) {
@@ -22,16 +21,27 @@ body {
   }
 }
 
+#page-header {
+  background: #2e005e;
+  z-index: 2;
+  position: sticky;
+  top: 0;
+}
+
 html {
   font-size: 14px;
   position: relative;
   min-height: 100%;
   color: white;
-  /* background: #421983; */
+  background: #2e005e;
+  background-image: url("/wave-haikei.svg");
+  background-repeat: repeat;
+  background-position: fixed;
+  background-size: cover;
 }
 
 html body {
-  background-image: url("/wave-haikei.svg");
+  background: transparent;
 }
 
 html nav a {
@@ -39,7 +49,6 @@ html nav a {
 }
 
 body {
-  min-height: 100vh;
   color: white;
 }
 

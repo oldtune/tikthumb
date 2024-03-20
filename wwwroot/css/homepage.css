@@ -13,18 +13,9 @@
   width: 100%;
 }
 
-#page-header {
-  /* z-index: 2; */
-  position: sticky;
-  top: 0;
-  /* background-color: #2e005e; */
-}
-
 #page-content {
   position: relative;
-  /* height: 100vh; */
-  /* overflow-y: scroll; */
-  height: 100%;
+  /* min-height: 100%; */
 }
 
 .left-side-logo {
@@ -35,13 +26,26 @@
   font-size: 28px;
 }
 
+@media screen and (max-width: 991px) {
+  .try-here {
+    margin-top: 15px;
+    border-top: 2px dotted black;
+  }
+}
+
+@media screen and (min-width: 992px) {
+}
+
 .form-wrapper {
-  width: 400px;
-  height: 400px;
+  border-top: 10px dotted black;
   background-color: #ff788f;
-  border-radius: 50%;
-  padding: 20px;
-  margin-top: -50px;
+}
+
+.form-wrapper-background-wrapper {
+  /* background-color: #ff788f; */
+  /* margin-top: 10px; */
+  border-top: 10px dotted black;
+  box-shadow: 0 10px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important;
 }
 
 .submit-button-wrapper {
@@ -56,12 +60,6 @@
   background: #b77ffe;
 }
 
-.form-wrapper-background-wrapper {
-  padding: 15px;
-  background-color: #ff788f;
-  border-radius: 25% 25% 50% 50%;
-}
-
 .step-image {
   height: 150px;
   width: 150px;
@@ -70,6 +68,7 @@
   border-color: #370d7a;
   border-style: groove;
   border-width: 1px;
+  border-radius: 25%;
 }
 
 .instruction-wrapper {

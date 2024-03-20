@@ -6,9 +6,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContextPool<DataProtectionDbContext>(options =>
+builder.Services.AddDbContextPool<TikthumbDbContext>(options =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DataProtection"), configure =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("Tikthumb"), configure =>
     {
         configure.EnableRetryOnFailure();
     });
@@ -16,7 +16,7 @@ builder.Services.AddDbContextPool<DataProtectionDbContext>(options =>
 });
 
 builder.Services.AddDataProtection()
-.PersistKeysToDbContext<DataProtectionDbContext>();
+.PersistKeysToDbContext<TikthumbDbContext>();
 
 var app = builder.Build();
 
