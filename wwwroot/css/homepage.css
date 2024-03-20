@@ -15,11 +15,10 @@
 
 #page-content {
   position: relative;
-  /* min-height: 100%; */
 }
 
 .left-side-logo {
-  font-size: 60px;
+  font-size: 45px;
 }
 
 .left-side-description {
@@ -42,8 +41,6 @@
 }
 
 .form-wrapper-background-wrapper {
-  /* background-color: #ff788f; */
-  /* margin-top: 10px; */
   border-top: 10px dotted black;
   box-shadow: 0 10px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important;
 }
