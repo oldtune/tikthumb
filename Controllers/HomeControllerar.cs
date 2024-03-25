@@ -28,6 +28,7 @@ public class HomeController : Controller
     [ActionName("Index")]
     public IActionResult Index()
     {
+        _logger.LogInformation("Someone view our page");
         return View();
     }
 
@@ -38,6 +39,7 @@ public class HomeController : Controller
     [RequestSizeLimit(100_000_000)]
     public async Task<IActionResult> Post()
     {
+        _logger.LogInformation("Someone actually tries our service");
         var files = Request.Form.Files;
 
         var uploadedVideoFile = files["videoFile"];
@@ -69,6 +71,7 @@ public class HomeController : Controller
         CleanUp(uploadContext, ffmpegContext);
 
         var stream = new FileStream(ffmpegContext.OutputFilePath, FileMode.Open);
+        _logger.LogInformation("Success trying our service! :happy:");
         return new CustomFileStreamResult(stream, ffmpegContext.OutputFilePath, ffmpegContext.OutputFileName);
     }
 
