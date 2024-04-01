@@ -8,16 +8,17 @@
 
 <div class="container">
     <div class="row h-100">
-    <div class="row text-center">
-                <div class="left-side-logo animate__animated animate__bounce">Tikthumb</div>
+        <div class="row text-center">
+            <div class="left-side-logo">Tikthumb</div>
             <div class="left-side-description">
                 <p>Tiktok won't allow custom thumbnail (Cover) when you post video.</p>
                 <p>So we insert custom thumbnail into the video for you.</p>
-            </div></div>
+            </div>
+        </div>
         <div
             class="col-12 col-lg-6 d-flex flex-column flex-wrap justify-content-center align-items-left left-side left-side-logo-wrapper">
             <div class="d-flex flex-column flex-wrap">
-                <h3>Here come the Instructions!</h3>
+                <h4>Here come the Instructions!</h4>
             </div>
             <div class="instruction-wrapper flex-wrap d-flex flex-column">
                 <div class="instruction-step d-flex flex-row align-items-center">
@@ -27,9 +28,10 @@
                     </div>
                 </div>
                 <div class="instruction-step d-flex flex-row align-items-center">
-                    <div class="step-description"><img class="step-image" src="~/tikthumb-logo.png" /></div>
+                    <div class="step-description"><img class="step-image" src="https://i.imgur.com/Eo6iSkW.jpeg" />
+                    </div>
                     <div class="step-number">
-                        2. Select the Custom Thumbnail
+                        2. Select the Thumbnail (We want Tom and Jerry to be the thumbnail)
                     </div>
                 </div>
                 <div class="instruction-step d-flex flex-row align-items-center">
@@ -41,9 +43,10 @@
                     </div>
                 </div>
                 <div class="instruction-step d-flex flex-row align-items-center">
-                    <div class="step-description"><img class="step-image" src="~/output.gif" /></div>
+                    <div class="step-description"><img class="step-image" src="~/output.png" /></div>
                     <div class="step-number">
-                        4. Upload the downloaded video to TikTok (They will be Rick Rolled 😹)
+                        4. Upload the downloaded video to TikTok (Tom & Jerry fans will be Rick Rolled 😹). Now It's
+                        easier for you to manage the videos and also for viewer to find it.
                     </div>
                 </div>
             </div>
@@ -52,33 +55,50 @@
             class="col-12 col-lg-6 justify-content-center d-flex justify-content-center align-items-center flex-column flex-nowrap">
             <div class="w-100 pb-5 try-here">
                 <span class="display-3">Try here</span>
-                    <span
-                        class="material-symbols-outlined display-3 animate__infinite animate__slower animate__animated animate__shakeY">
-                        arrow_downward
-                    </span>
+                <span
+                    class="material-symbols-outlined display-3 animate__infinite animate__slower animate__animated animate__shakeY">
+                    arrow_downward
+                </span>
             </div>
             <div class="form-wrapper-background-wrapper w-100">
                 <div class="form-wrapper d-flex flex-column justify-content-center align-items-center text-dark">
                     <form enctype="multipart/form-data" method="post" class="p-5" id="form">
                         <div class="form-group row mb-3">
-                            <label class="form-label">① Choose your video file</label>
+                            <label class="form-label">1. Choose your video file</label>
                             <input required name="videoFile" accept=".mp4,.mov,.avi,.wmv,.webm,.flv,.mkv,.amv"
                                 type="file" id="videoFile" class="form-control" />
                         </div>
                         <div class="form-group row mb-3">
-                            <label class="form-label">② Choose the thumbnail image</label>
+                            <label class="form-label">2. Choose the thumbnail image</label>
                             <input required name="thumbnailFile" accept=".jpeg,.png,.tiff,.raw,.jpg, .webp,.bmp"
                                 type="file" id="thumbnailFile" class="form-control" />
                         </div>
                         <div class="form-group row submit-button-wrapper submit-button-wrapper__disabled"
                             id="submit-button-wrapper" title="Will be selected when Video and Thumbnail are selected">
-                            <button disabled="true" class="btn btn-primary" id="submit-btn" type="submit">③
+                            <button disabled="true" class="btn btn-primary" id="submit-btn" type="submit">3.
                                 Submit</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
+    </div>
+</div>
+<div class="container mt-5">
+    <div class="row text-center">
+        <h2>What is tikthumb and why do we need it?</h2>
+    </div>
+    <p>Take a look at this sample profile. Can you tell what the video is about? Suppose you are the owner of the video,
+        you still cannot tell what it's all about</p>
+    <img src="" />
+    <p>With Tikthumb, You get the friendly cover of the video. This way, not only the owner find it easier to manage
+        their list, but also the viewer find it easier to search some video that they watched ealier.</p>
+    <p>Your video show on Search results will standout because it's direct to the point</p>
+</div>
+
+<div class="container mt-5">
+    <div class="row text-center">
+        <h2>FAQ</h2>
     </div>
 </div>
 

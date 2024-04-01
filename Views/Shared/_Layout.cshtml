@@ -26,8 +26,8 @@
     @await RenderSectionAsync("Styling", required: false)
 </head>
 
-<body class="animate__animated animate__zoomInDown">
-    <header class="animate__animated animate__bounce" id="page-header">
+<body>
+    <header id="page-header">
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm box-shadow">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"
@@ -69,15 +69,14 @@
                                 </span>
                                 <span class="material-symbols-outlined">
                                     sell
-                                </span>Pricing</a>
+                                </span>API & Pricing</a>
                         </li>
-
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container-fluid animate__animated animate__bounce" id="page-content">
+    <div class="container-fluid " id="page-content">
         @RenderBody()
     </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

@@ -19,9 +19,12 @@
 
 .left-side-logo {
   font-size: 45px;
+  font-weight: bold;
+  color: #ff788f;
 }
 
 .left-side-description {
+  /* color: #c7fa73; */
   font-size: 26px;
 }
 
@@ -58,8 +61,8 @@
 }
 
 .step-image {
-  height: 150px;
-  width: 150px;
+  height: 100px;
+  width: 100px;
   object-fit: fill;
   background: #b880ff;
   border-color: #370d7a;
@@ -81,7 +84,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 28px;
+  font-size: 20px;
   color: white;
   background: #b77ffe;
 }
