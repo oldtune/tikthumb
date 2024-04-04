@@ -3,98 +3,101 @@
 .btn-link.nav-link:focus,
 .form-control:focus,
 .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+	box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 .footer {
-  height: 60px;
-  position: absolute;
-  bottom: 0;
-  width: 100%;
+	height: 60px;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
 }
 
 #page-content {
-  position: relative;
+	position: relative;
 }
 
 .left-side-logo {
-  font-size: 45px;
-  font-weight: bold;
-  color: #ff788f;
+	font-size: 45px;
+	font-weight: bold;
+	color: #ff788f;
 }
 
 .left-side-description {
-  /* color: #c7fa73; */
-  font-size: 26px;
+	/* color: #c7fa73; */
+	font-size: 26px;
 }
 
 @media screen and (max-width: 991px) {
-  .try-here {
-    margin-top: 15px;
-    border-top: 2px dotted black;
-  }
+	.try-here {
+		margin-top: 15px;
+		border-top: 2px dotted black;
+	}
 }
 
-@media screen and (min-width: 992px) {
-}
+@media screen and (min-width: 992px) {}
 
 .form-wrapper {
-  border-radius: 25px;
-  /* border-top: 10px dotted black; */
-  background-color: #ff788f;
-  box-shadow: 0 10px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important;
+	border-radius: 25px;
+	/* border-top: 10px dotted black; */
+	background-color: #ff788f;
+	box-shadow: 0 10px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important;
 }
 
 .form-wrapper-background-wrapper {
-  /* border-top: 10px dotted black; */
+	/* border-top: 10px dotted black; */
 }
 
 .submit-button-wrapper {
-  cursor: pointer;
+	cursor: pointer;
 }
 
 .submit-button-wrapper.submit-button-wrapper__disabled {
-  cursor: not-allowed;
+	cursor: not-allowed;
 }
 
 #submit-btn {
-  background: #b77ffe;
+	background: #b77ffe;
 }
 
 .step-image {
-  height: 100px;
-  width: 100px;
-  object-fit: fill;
-  background: #b880ff;
-  border-color: #370d7a;
-  border-style: groove;
-  border-width: 1px;
-  border-radius: 10%;
+	height: 100px;
+	width: 100px;
+	object-fit: fill;
+	background: #b880ff;
+	border-color: #370d7a;
+	border-style: groove;
+	border-width: 1px;
+	border-radius: 10%;
 }
 
 .instruction-wrapper {
-  justify-content: space-between;
-  gap: 20px;
+	justify-content: space-between;
+	gap: 20px;
 }
 
 .instruction-step {
-  gap: 20px;
+	gap: 20px;
 }
 
 .step-image-text {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 20px;
-  color: white;
-  background: #b77ffe;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 20px;
+	color: white;
+	background: #b77ffe;
 }
 
 .faq-image {
-  height: 450px;
-  width: 400px;
+	width: 100%;
+	height: 100%;
 }
 
 .margin-block {
-  margin-top: 80px;
+	margin-top: 80px;
+}
+
+p {
+	font-size: 16px;
 }
