@@ -8,7 +8,7 @@ ViewData["Title"] = "Home";
 
 <div class="container">
 	<div class="row h-100">
-		<div class="row text-center">
+		<div class="row text-center mb-5">
 			<div class="left-side-logo">Tikthumb</div>
 			<div class="left-side-description">
 				<p>Tiktok won't allow custom thumbnail (Cover) when you post video.</p>
@@ -63,7 +63,7 @@ ViewData["Title"] = "Home";
 			<div class="form-wrapper-background-wrapper w-100">
 				<div class="form-wrapper d-flex flex-column justify-content-center align-items-center text-dark">
 					<form enctype="multipart/form-data" method="post" class="p-5" id="form">
-						<div class="form-group row mb-3">
+						<div class="form-group row mb-2">
 							<label class="form-label">1. Choose your video file</label>
 							<input required name="videoFile" accept=".mp4,.mov,.avi,.wmv,.webm,.flv,.mkv,.amv"
 								type="file" id="videoFile" class="form-control" />
@@ -85,62 +85,86 @@ ViewData["Title"] = "Home";
 	</div>
 </div>
 <div class="container margin-block">
-	<div class="row text-center mb-2">
-		<h2>What is tikthumb and why do we need it?</h2>
-	</div>
-	<div class="row mb-3">
-		<div class="col-12 col-lg-6 justify-content-center align-items-center d-flex">
-			<p>
-				Take a look at this sample profile. I made a search on Tiktok using keyword "Roblox", Can
-				you
-				tell
-				what these
-				videos are all about without looking at the long trimmed title?
-			</p>
+	<div id="accordion2" class="accordion">
+		<div class="accordion-item">
+			<div class="accordion-header" id="tikthumb-definition-header">
+				<h2 class="primary-header-text-color">
+					<button class="accordion-button primary-header-text-color" type="button" data-bs-toggle="collapse"
+						data-bs-target="#tikthumb-definition-collapse" aria-expanded="true"
+						aria-controls="tikthumb-definition-collapse">
+						What is tikthumb and why do we
+						need it?
+					</button>
+				</h2>
+			</div>
+			<div id="tikthumb-definition-collapse" class="accordion-collapse collapse show"
+				aria-labelledby="tikthumb-definition-header" data-bs-parent="#accordion">
+				<div class="card-body">
+					<div class="row mb-3">
+						<div class="col-12 col-lg-6 justify-content-center align-items-center d-flex">
+							<p>
+								Take a look at this sample profile. I made a search on Tiktok using keyword "Roblox",
+								Can
+								you
+								tell
+								what these
+								videos are all about without looking at the long trimmed title?
+							</p>
+						</div>
+						<div class="col-12 col-lg-6 justify-content-center align-items-center d-flex">
+							<img src="~/roblox.png" class="faq-image" />
+						</div>
+					</div>
+					<div class="row mb-2 mobile-reverse">
+						<div class="col-12 col-lg-6 justify-content-center align-items-center">
+							<img src="~/tiktokexample.png" class="faq-image" />
+						</div>
+						<div class="col-12 col-lg-6 justify-content-center align-items-center d-flex">
+							<p>
+								Or say, you are looking at someone's profile and want to find a funny meme that you saw
+								earlier but
+								then
+								you see this. How can you find that and share it to your friend?
+							</p>
+						</div>
+					</div>
+					<div class="row">
+						<p class="col">With Tikthumb, You get the friendly cover of the video. This way, not only the
+							owner
+							find it
+							easier to manage their list, but also the viewer find it easier to search some video that
+							they
+							watched
+							ealier. Your video show on Search results will standout because it's direct to the point</p>
+					</div>
+				</div>
+			</div>
 		</div>
-		<div class="col-12 col-lg-6 justify-content-center align-items-center d-flex">
-			<img src="~/roblox.png" class="faq-image" />
-		</div>
-	</div>
-	<div class=" row mb-5">
-		<div class="col-12 col-lg-6 justify-content-center align-items-center">
-			<img src="~/tiktokexample.png" class="faq-image" />
-		</div>
-		<div class="col-12 col-lg-6 justify-content-center align-items-center d-flex">
-			Or say, you are looking at someone's profile and want to find a funny meme that you saw earlier but then
-			you see this. How can you find that and share it to your friend?
-		</div>
-	</div>
-	<div class="row">
-		<p class="col">With Tikthumb, You get the friendly cover of the video. This way, not only the owner find it
-			easier to manage their list, but also the viewer find it easier to search some video that they watched
-			ealier. Your video show on Search results will standout because it's direct to the point</p>
 	</div>
 	<div class="container mt-5">
 		<div class="row text-left">
-			<h2>FAQ</h2>
+			<h2 class="primary-header-text-color">FAQ</h2>
 			<h3>1. Does this violate any rules and policies of Tiktok?</h3>
-			<p>No, we still follow their poicy, the cover is still the content of the video. We did nothing
+			<p>No, we still follow their policy, the cover is still considered the content of the video. We did
+				nothing
 				illegal
 				here.</p>
-			<h3>2. What are the benefit of having a thumbnail?</h3>
+			<h3>2. What are the benefits of having a thumbnail?</h3>
 			<p>Having a thumbnail makes your profile looks professsional. It's not only easier for you to manage
 				your
-				video but for others to find your video. When your video is shown on search result, it should
+				videos but for others to find them. When your video is shown on search results, it should
 				stand
 				out
-				and direct to the point because they find what they want by simply looking at the thumbnail and
-				not
+				and be clear because viewers can find what they want by simply looking at the thumbnail instead of
 				the
 				long and small title.</p>
-			<h3>3. What is the recommend thumbnail resolution for video?</h3>
-			<p>Your thumbnail should have the same resolution as your video. Don't worry if they don't have the
-				same
-				size, we will resize the thumbnail so it could be compatible with your video.</p>
+			<h3>3. What is the recommend thumbnail resolution for videos?</h3>
+			<p>Your thumbnail should have the same resolution as your video. Don't worry if they don't have the same
+				size, we will resize the thumbnail for compatibility with your video.</p>
 			<h3>4. What is the recommend video format?</h3>
-			<p>We advice using .mp4 file format. However, other well known format should work too.</p>
+			<p>We recommend using the .mp4 file format. However, other well-known formats should work as well.</p>
 			<h3>5. What is the recommend image format?</h3>
-			<p>We recommend using the .jpg, .png, .jpeg formats. However, other formats should work too.</p>
+			<p>We recommend using the .jpg, .png, or .jpeg formats. However, other formats should work as well.</p>
 		</div>
 	</div>
 

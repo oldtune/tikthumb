@@ -234,4 +234,18 @@ public class HomeController : Controller
     {
         return View();
     }
+
+    [HttpGet]
+    [ActionName("Pricing")]
+    public IActionResult GetPricing()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    [ActionName("Pricing")]
+    public IActionResult PostPricing()
+    {
+        return View();
+    }
 }

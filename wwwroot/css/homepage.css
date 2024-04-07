@@ -33,9 +33,11 @@
 		margin-top: 15px;
 		border-top: 2px dotted black;
 	}
-}
 
-@media screen and (min-width: 992px) {}
+	.mobile-reverse {
+		flex-direction: column-reverse;
+	}
+}
 
 .form-wrapper {
 	border-radius: 25px;
@@ -100,4 +102,21 @@
 
 p {
 	font-size: 16px;
+}
+
+.primary-header-text-color {
+	color: #ff788f;
+}
+
+.collapsing {
+	transition: height 0.1s ease;
+}
+
+.accordion-item {
+	background: #2e005e;
+}
+
+.primary-header-text-color.accordion-button {
+	color: #ff788f;
+	background: #2e005e;
 }
