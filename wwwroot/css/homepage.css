@@ -120,3 +120,15 @@ p {
 	color: #ff788f;
 	background: #2e005e;
 }
+
+.accordion-button::after{
+	color: #ff788f;
+	background-image: none;
+	content: "+";
+}
+
+.accordion-button:not(.collapsed)::after{
+	color: #ff788f;
+	background-image: none;
+	content: "-";
+}
