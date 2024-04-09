@@ -45,15 +45,18 @@ html body {
 }
 
 html nav a {
-  color: white;
+  /* color: white; */
+	color:#e3e3e3; 
 }
 
 body {
-  color: white;
+  /* color: white; */
+	color: #e3e3e3 ;
 }
 
 a.nav-link {
-  color: white;
+  /* color: white; */
+	color: #e3e3e3;
 }
 
 a.nav-link:hover {

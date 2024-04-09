@@ -121,14 +121,27 @@ p {
 	background: #2e005e;
 }
 
-.accordion-button::after{
+.accordion-button::after {
 	color: #ff788f;
 	background-image: none;
 	content: "+";
 }
 
-.accordion-button:not(.collapsed)::after{
+.accordion-button:not(.collapsed)::after {
 	color: #ff788f;
 	background-image: none;
 	content: "-";
+}
+
+span.highlight-contact-info {
+	max-width: 100%;
+	font-size: 30px;
+	background: -webkit-linear-gradient(#eee, #333);
+	background-clip: text;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+h3{
+  color: #769444;
 }
