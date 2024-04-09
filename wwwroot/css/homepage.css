@@ -142,6 +142,10 @@ span.highlight-contact-info {
 	-webkit-text-fill-color: transparent;
 }
 
-h3{
-  color: #769444;
+h3 {
+	color: #769444;
+}
+
+button.accordion-button {
+	font-size: calc(1.325rem + .9vw);
 }
