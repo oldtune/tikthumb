@@ -193,59 +193,59 @@ public class HomeController : Controller
         return unixTimestamp;
     }
 
-    [HttpGet]
-    [ActionName("contact")]
-    public IActionResult Contact()
-    {
-        return View();
-    }
+    /* [HttpGet] */
+    /* [ActionName("contact")] */
+    /* public IActionResult Contact() */
+    /* { */
+    /*     return View(); */
+    /* } */
 
-    [HttpGet]
-    [ActionName("about")]
-    public IActionResult About()
-    {
-        return View();
-    }
+    /* [HttpGet] */
+    /* [ActionName("about")] */
+    /* public IActionResult About() */
+    /* { */
+    /*     return View(); */
+    /* } */
 
-    [HttpGet]
-    [ActionName("BugReport")]
-    public IActionResult BugReport()
-    {
-        return View();
-    }
+    /* [HttpGet] */
+    /* [ActionName("BugReport")] */
+    /* public IActionResult BugReport() */
+    /* { */
+    /*     return View(); */
+    /* } */
 
-    [HttpPost]
-    [ActionName("BugReport")]
-    public IActionResult PostBugReport()
-    {
-        return View();
-    }
+    /* [HttpPost] */
+    /* [ActionName("BugReport")] */
+    /* public IActionResult PostBugReport() */
+    /* { */
+    /*     return View(); */
+    /* } */
 
-    [HttpGet]
-    [ActionName("FeatureRequest")]
-    public IActionResult GetFeatureRequestPage()
-    {
-        return View();
-    }
+    /* [HttpGet] */
+    /* [ActionName("FeatureRequest")] */
+    /* public IActionResult GetFeatureRequestPage() */
+    /* { */
+    /*     return View(); */
+    /* } */
 
-    [HttpPost]
-    [ActionName("FeatureRequest")]
-    public IActionResult PostFeatureRequest()
-    {
-        return View();
-    }
+    /* [HttpPost] */
+    /* [ActionName("FeatureRequest")] */
+    /* public IActionResult PostFeatureRequest() */
+    /* { */
+    /*     return View(); */
+    /* } */
 
-    [HttpGet]
-    [ActionName("Pricing")]
-    public IActionResult GetPricing()
-    {
-        return View();
-    }
+    /* [HttpGet] */
+    /* [ActionName("Pricing")] */
+    /* public IActionResult GetPricing() */
+    /* { */
+    /*     return View(); */
+    /* } */
 
-    [HttpPost]
-    [ActionName("Pricing")]
-    public IActionResult PostPricing()
-    {
-        return View();
-    }
+    /* [HttpPost] */
+    /* [ActionName("Pricing")] */
+    /* public IActionResult PostPricing() */
+    /* { */
+    /*     return View(); */
+    /* } */
 }
