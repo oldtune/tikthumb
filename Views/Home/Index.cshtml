@@ -67,16 +67,16 @@ ViewData["Title"] = "Home";
 					<form enctype="multipart/form-data" method="post" class="p-5" id="form">
 						<div class="form-group row mb-2">
 							<label class="form-label">1. Choose your video file</label>
-							<input required name="videoFile" accept=".mp4,.mov,.avi,.wmv,.webm,.flv,.mkv,.amv"
-								type="file" id="videoFile" class="form-control" />
+							<input required name="videoFile" accept=".mp4,.mov,.avi,.wmv,.webm,.flv,.mkv,.amv" type="file"
+								id="videoFile" class="form-control" />
 						</div>
 						<div class="form-group row mb-3">
 							<label class="form-label">2. Choose the thumbnail image</label>
-							<input required name="thumbnailFile" accept=".jpeg,.png,.tiff,.raw,.jpg, .webp,.bmp"
-								type="file" id="thumbnailFile" class="form-control" />
+							<input required name="thumbnailFile" accept=".jpeg,.png,.tiff,.raw,.jpg, .webp,.bmp" type="file"
+								id="thumbnailFile" class="form-control" />
 						</div>
-						<div class="form-group row submit-button-wrapper submit-button-wrapper__disabled"
-							id="submit-button-wrapper" title="Will be selected when Video and Thumbnail are selected">
+						<div class="form-group row submit-button-wrapper submit-button-wrapper__disabled" id="submit-button-wrapper"
+							title="Will be selected when Video and Thumbnail are selected">
 							<button disabled="true" class="btn btn-primary" id="submit-btn" type="submit">3.
 								Submit</button>
 						</div>
@@ -87,12 +87,50 @@ ViewData["Title"] = "Home";
 	</div>
 </div>
 <div class="container margin-block">
+	<div class="accordion-item mb-3">
+		<div class="accordion-header" id="tutorial-header">
+			<h2 class="primary-header-text-color"><button class="accordion-button primary-header-text-color" type="button"
+					data-bs-target="#tutorial-collapse" aria-expanded="true" aria-controls="tutorial-collapse">Tutorial</button>
+			</h2>
+		</div>
+		<div id="tutorial-collapse" class="accordion-collapse collapse show" aria-labelledby="tutorial-header"
+			data-bs-parent="#accordion">
+			<div class="accordion-body">
+				<div class="row text-left">
+					<h3>Choose the video that you want you insert thumbnail</h3>
+					<img class="tutorial-image" src="~/first_step.png" />
+					<p>We recommend .mp4 file format because it's the most common format for video. Tiktok also prefer mp4 file
+						format to others.</p>
+					<h3>Choosing the thumbnail image that you want to insert into the video</h3>
+					<img class="tutorial-image" src="~/second_step.png" />
+					<p>You should choose the common image format such as .png, .jpeg, jpg with high quality and eye catching
+						enough to catch the attention from viewers. The recommended image resolution is 1080 x 1920. This is also
+						recommended by Tiktok since it's their default video resolution. We will also scale the image to the same
+						resolution of your video so don't worry if your image is slighly bigger or smaller than the video
+						resolution</p>
+					<h3>Click the Submit button and wait till the new video is downloaded</h3>
+					<p class="text-danger">Important! You must select the video and the thumbnail image in previous 2 steps in
+						order to click Submit. Otherwise, the button won't be enabled!</p>
+					<img class="tutorial-image" src="~/third_step.png" />
+					<p>We will generate a new video with the thumbnail embedded in your video. The video should be automatically
+						downloaded after a short moment.</p>
+					<h3>Upload the video to Tiktok</h3>
+					<p>We can grab the new video and upload it to Tiktok as we always do. Just leave the part where we choose the
+						Thumbnail as default</p>
+					<h3>Enjoy what we just did. The thumbnail will just stick there permanently</h3>
+					<p>After all the step we went through. The thumbnail should stick there till the end of time. Tiktok won't
+						tinker with our thumbnail as it usually does</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<div id="accordion" class="accordion">
 		<div class="accordion-item mb-3">
 			<div class="accordion-header" id="tikthumb-definition-header">
 				<h2 class="primary-header-text-color">
-					<button class="accordion-button primary-header-text-color" type="button" data-bs-toggle="collapse"
-						data-bs-target="#tikthumb-definition-collapse" aria-expanded="false"
+					<button class="accordion-button primary-header-text-color" type="button"
+						data-bs-target="#tikthumb-definition-collapse" aria-expanded="true"
 						aria-controls="tikthumb-definition-collapse">
 						What is tikthumb and why do we
 						need it?
@@ -100,7 +138,7 @@ ViewData["Title"] = "Home";
 				</h2>
 			</div>
 
-			<div id="tikthumb-definition-collapse" class="accordion-collapse collapse"
+			<div id="tikthumb-definition-collapse" class="accordion-collapse collapse show"
 				aria-labelledby="tikthumb-definition-header" data-bs-parent="#accordion">
 				<div class="card-body">
 					<div class="row mb-3">
@@ -143,13 +181,12 @@ ViewData["Title"] = "Home";
 				</div>
 			</div>
 		</div>
-		<div class="accordion-item">
+		<div class="accordion-item mb-3">
 			<div class="accordion-header" id="faq-header">
-				<h2 class="primary-header-text-color"><button class="accordion-button primary-header-text-color"
-						type="button" data-bs-toggle="collapse" data-bs-target="#faq-collapse" aria-expanded="false"
-						aria-controls="faq-collapse">FAQ</button></h2>
+				<h2 class="primary-header-text-color"><button class="accordion-button primary-header-text-color" type="button"
+						data-bs-target="#faq-collapse" aria-expanded="true" aria-controls="faq-collapse">FAQ</button></h2>
 			</div>
-			<div id="faq-collapse" class="accordion-collapse collapse" aria-labelledby="faq-header"
+			<div id="faq-collapse" class="accordion-collapse collapse show" aria-labelledby="faq-header"
 				data-bs-parent="#accordion">
 				<div class="accordion-body">
 					<div class="row text-left">

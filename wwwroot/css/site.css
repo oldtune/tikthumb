@@ -65,6 +65,13 @@ a:hover {
 }
 
 #nav-item-home {
-  text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.3),
+  text-shadow:
+    0px 1px 0px rgba(255, 255, 255, 0.3),
     0px -1px 0px rgba(0, 0, 0, 0.7);
+}
+
+.tutorial-image {
+  width: auto;
+  height: auto;
+  margin-bottom: 10px;
 }
