@@ -46,17 +46,17 @@ html body {
 
 html nav a {
   /* color: white; */
-	color:#e3e3e3; 
+  color: #e3e3e3;
 }
 
 body {
   /* color: white; */
-	color: #e3e3e3 ;
+  color: #e3e3e3;
 }
 
 a.nav-link {
   /* color: white; */
-	color: #e3e3e3;
+  color: #e3e3e3;
 }
 
 a.nav-link:hover {
@@ -77,4 +77,11 @@ a:hover {
   width: auto;
   height: auto;
   margin-bottom: 10px;
+}
+
+@media (min-width: 1366px) {
+  #tutorial-video {
+    width: 560px;
+    height: 315px;
+  }
 }
